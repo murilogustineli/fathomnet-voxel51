@@ -19,6 +19,7 @@ dependencies = [
     "pillow",
     "coco-lib",
     "tqdm",
+    "google-cloud-storage>=3.7.0",
 ]
 
 [project.urls]
