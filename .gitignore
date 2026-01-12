@@ -5,6 +5,7 @@
 build/
 __pycache__/
 .ipynb_checkpoints/
+.ruff_cache/
 
 # Environment variables
 .env
