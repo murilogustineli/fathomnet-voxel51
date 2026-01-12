@@ -4,7 +4,7 @@
 
 This repo contains the workflow and analysis for the [FathomNet 2025 dataset](https://www.kaggle.com/competitions/fathomnet-2025/) (CVPR-FGVC) using [FiftyOne Enterprise](https://docs.voxel51.com/enterprise/index.html). The project simulates a real-world Customer Success scenario involving scientific data curation, hierarchical taxonomy analysis, and "needle-in-a-haystack" visual search for marine research (MBARI).
 
-## Repository Structure
+## Repo Structure
 
 ```text
 .
@@ -13,8 +13,12 @@ This repo contains the workflow and analysis for the [FathomNet 2025 dataset](ht
 │   └── dataset_train.json      # FathomNet Train annotations (COCO format)
 ├── fathomnet-voxel51/
 │   ├── __init__.py
-│   └── download_data.py        # Script to fetch images and upload to Cloud Storage
+│   ├── check_gcp_auth.py       # Script to verify GCP authentication
+│   ├── download_data.py        # Script to fetch images and upload to Cloud Storage
+│   ├── ingest_dataset.py       # Script to ingest data into FiftyOne
+│   └── load_data_gcp.py        # Script to load data from GCP
 ├── notebooks/
+│   ├── 00_load_data_gcp.ipynb  # Example notebook for loading data from GCP
 │   └── fathomnet-2025-cvpr-fgvc.ipynb  # Initial EDA and data exploration
 ├── pyproject.toml              # Project dependencies and configuration
 └── README.md
