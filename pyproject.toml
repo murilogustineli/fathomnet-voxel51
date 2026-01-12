@@ -1,0 +1,35 @@
+[project]
+name = "fathomnet-voxel51"
+version = "0.0.1"
+authors = [{ name = "Murilo Gustineli", email = "murilogustineli@gmail.com" }]
+description = "FathomNet-Voxel51 helper package"
+readme = "README.md"
+requires-python = ">=3.10"
+dependencies = [
+    "numpy",
+    "pandas",
+    "matplotlib",
+    "notebook",
+    "ipykernel",
+    "openpyxl",
+    "jupyterlab",
+    "pre-commit",
+    "python-dotenv>=1.2.1",
+    "httpx",
+    "pillow",
+    "coco-lib",
+    "tqdm",
+]
+
+[project.urls]
+Homepage = "https://github.com/murilogustineli/fathomnet-voxel51"
+Issues = "https://github.com/murilogustineli/fathomnet-voxel51/issues"
+
+[build-system]
+requires = ["setuptools>=61.0"]
+build-backend = "setuptools.build_meta"
+
+[tool.setuptools.packages.find]
+where = ["."]
+include = ["fathomnet-voxel51"]
+namespaces = false

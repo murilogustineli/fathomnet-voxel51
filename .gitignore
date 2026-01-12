@@ -1,0 +1,10 @@
+*venv/
+*.egg-info/
+*.DS_Store
+*.pyc
+build/
+__pycache__/
+.ipynb_checkpoints/
+
+# Environment variables
+.env
