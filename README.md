@@ -71,6 +71,12 @@ export FIFTYONE_API_KEY="<your-api-key>"
 export GOOGLE_APPLICATION_CREDENTIALS="/path/to/your/gcp_credentials.json"
 ```
 
+To verify your GCP authentication setup, run:
+
+```bash
+python -m fathomnet_voxel51.check_gcp_auth
+```
+
 ## Usage
 
 ### Data Ingestion
