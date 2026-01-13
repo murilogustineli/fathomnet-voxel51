@@ -34,8 +34,11 @@ gsutil rm gs://<your-bucket>/<your-dataset>/image.jpg
 # Delete a folder recursively (use with caution!)
 gsutil rm -r gs://<your-bucket>/<your-dataset>/
 
-# Dry-run (preview what would be deleted)
-gsutil rm -n gs://<your-bucket>/<your-dataset>/*
+# Delete recursively with parallel operations (faster)
+gsutil -m rm -r gs://<your-bucket>/<your-dataset>/
+
+# Preview files before deleting (no dry-run flag available)
+gsutil ls gs://<your-bucket>/<your-dataset>/
 ```
 
 ## Copy and Sync

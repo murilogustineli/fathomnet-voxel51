@@ -101,7 +101,7 @@ python -m fathomnet_voxel51.check_gcp_auth
 The dataset relies on images hosted via URLs. We use a staging approach:
 
 1. Download images from FathomNet URLs.
-2. Upload to a private GCS Bucket (gs://voxel51-test/fathomnet/...).
+2. Upload to a private GCS Bucket.
 3. Create FiftyOne samples pointing to the Cloud URI.
 
 Run the ingestion script:
