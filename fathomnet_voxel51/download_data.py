@@ -1,5 +1,5 @@
 """
-Download the dataset for the 2025 FathomNet competition.
+Download the dataset locally for the 2025 FathomNet competition.
 Retrieved from: https://www.kaggle.com/competitions/fathomnet-2025/data
 """
 

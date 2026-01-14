@@ -15,8 +15,8 @@ This repo contains the workflow and analysis for the [FathomNet 2025 dataset](ht
 │   ├── __init__.py
 │   ├── check_gcp_auth.py       # Script to verify GCP authentication
 │   ├── download_data.py        # Script to fetch images and upload to Cloud Storage
-│   ├── ingest_dataset.py       # Script to ingest data into FiftyOne
-│   └── load_data_gcp.py        # Script to load data from GCP
+│   ├── download_data_gcp.py    # Script to download images and upload to GCP
+│   └── ingest_dataset.py       # Script to ingest data into FiftyOne
 ├── notebooks/
 │   ├── 00_fathomnet-eda.ipynb  # Initial EDA and data exploration
 │   └── 01_load_data_gcp.ipynb  # Example notebook for loading data from GCP
