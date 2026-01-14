@@ -21,6 +21,9 @@ gsutil ls -lh gs://<your-bucket>/<your-dataset>/
 # Get total size of a folder
 gsutil du -sh gs://<your-bucket>/<your-dataset>/
 
+# Count number of objects in a bucket/folder
+gsutil ls gs://<your-bucket>/<your-dataset>/ | wc -l
+
 # Get bucket metadata
 gsutil ls -L -b gs://<your-bucket>/
 ```
