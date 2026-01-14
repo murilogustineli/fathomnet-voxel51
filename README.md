@@ -14,12 +14,12 @@ This repo contains the workflow and analysis for the [FathomNet 2025 dataset](ht
 ├── fathomnet-voxel51/
 │   ├── __init__.py
 │   ├── check_gcp_auth.py       # Script to verify GCP authentication
-│   ├── download_data.py        # Script to fetch images and upload to Cloud Storage
-│   ├── upload_to_gcs.py        # Script to stream images from URLs to GCS
-│   └── ingest_dataset.py       # Script to ingest data into FiftyOne
+│   ├── upload_to_gcs.py        # Stream images from FathomNet URLs to GCS
+│   └── ingest_dataset.py       # Ingest dataset into FiftyOne Enterprise
 ├── notebooks/
 │   ├── 00_fathomnet-eda.ipynb  # Initial EDA and data exploration
-│   └── 01_upload_to_gcp.ipynb  # Example notebook for uploading data to GCS
+│   ├── 01_upload_to_gcp.ipynb  # Example notebook for uploading data to GCS
+│   └── 02_ingest_dataset.ipynb # Example notebook for FiftyOne ingestion
 ├── pyproject.toml              # Project dependencies and configuration
 ├── GCLOUD.md                   # GCP/gsutil commands reference
 └── README.md
@@ -97,25 +97,45 @@ python -m fathomnet_voxel51.check_gcp_auth
 
 ## Usage
 
-### Data Ingestion
+### Step 1: Upload Images to GCS
 
-The dataset relies on images hosted via URLs. We use a staging approach:
-
-1. Download images from FathomNet URLs.
-2. Upload to a private GCS Bucket.
-3. Create FiftyOne samples pointing to the Cloud URI.
-
-Run the ingestion script:
+Stream images from FathomNet URLs directly to Google Cloud Storage (no local disk needed):
 
 ```bash
+# Upload all images (~1 hour)
 python -m fathomnet_voxel51.upload_to_gcs
+
+# Or test with a subset first
+python -m fathomnet_voxel51.upload_to_gcs --limit 100
 ```
 
 > _Expected runtime: ~1 hour (train: ~63 min, test: ~3 min) at ~2 images/sec._
 
+### Step 2: Ingest into FiftyOne
+
+Create the FiftyOne dataset with both train and test splits:
+
+```bash
+# Ingest full dataset
+python -m fathomnet_voxel51.ingest_dataset
+
+# Or test with a subset first
+python -m fathomnet_voxel51.ingest_dataset --limit 10
+
+# Recreate existing dataset
+python -m fathomnet_voxel51.ingest_dataset --recreate
+```
+
+The script will:
+
+- Load COCO annotations from both train and test JSON files
+- Create samples pointing to GCS image paths
+- Convert bounding boxes to FiftyOne detection format
+- Tag samples with their split (`train`/`test`) for filtering in the App
+
 ### Exploration
 
-To explore the data locally or perform EDA before ingestion, check the notebook `notebooks/fathomnet-2025-cvpr-fgvc.ipynb`.
+To explore the data or perform EDA, check the notebooks in `notebooks/`.
 
 ## GCP Commands Reference
 

@@ -4,7 +4,7 @@ This file provides guidance to Claude Code (claude.ai/code) when working with co
 
 ## Project Overview
 
-This is a FiftyOne Enterprise project for analyzing the FathomNet 2025 dataset (CVPR-FGVC marine species competition). The workflow involves downloading images from FathomNet URLs, cropping ROIs from bounding box annotations, and preparing data for FiftyOne ingestion.
+This is a FiftyOne Enterprise project for analyzing the FathomNet 2025 dataset (CVPR-FGVC marine species competition). The workflow involves streaming images from FathomNet URLs to GCS, then ingesting them into FiftyOne Enterprise for analysis.
 
 ## Build and Development Commands
 
@@ -12,10 +12,13 @@ This is a FiftyOne Enterprise project for analyzing the FathomNet 2025 dataset (
 # Create virtual environment and install dependencies
 uv venv .venv
 source .venv/bin/activate
-uv pip install -e .
+UV_EXTRA_INDEX_URL="https://<token>@pypi.fiftyone.ai" uv pip install -e .
 
-# Run the data download script
-python -m fathomnet_voxel51.download_data <dataset_path> <output_dir> [-n NUM_DOWNLOADS] [-v|-vv]
+# Upload images to GCS
+python -m fathomnet_voxel51.upload_to_gcs [--limit N]
+
+# Ingest dataset into FiftyOne
+python -m fathomnet_voxel51.ingest_dataset [--recreate] [--limit N]
 
 # Run pre-commit hooks manually
 pre-commit run --all-files
@@ -32,21 +35,21 @@ pre-commit install
 
 ## Architecture
 
-The main package (`fathomnet-voxel51/`) contains:
+The main package (`fathomnet_voxel51/`) contains:
 
-- `download_data.py`: Async image downloader that processes COCO-format datasets, downloads images via httpx, crops ROIs using Pillow, and outputs annotations as CSV
+- `upload_to_gcs.py`: Async image streamer that uploads images from FathomNet URLs directly to GCS (no local disk I/O)
+- `ingest_dataset.py`: Creates FiftyOne dataset from COCO JSON annotations, pointing to GCS image paths
+- `check_gcp_auth.py`: Utility to verify GCP authentication
 
 Data flow:
 
-1. Load COCO JSON annotations via `coco-lib`
-2. Download images concurrently (semaphore-limited)
-3. Crop each annotation's bounding box to create ROI images
-4. Write path/label CSV for FiftyOne ingestion
+1. `upload_to_gcs.py`: Stream images from FathomNet URLs → GCS bucket
+2. `ingest_dataset.py`: Read COCO JSON → Create FiftyOne samples with GCS paths → Tag with split (train/test)
 
 ## Required Environment Variables
 
 ```bash
 FIFTYONE_API_URI="https://<deployment>.fiftyone.ai"
 FIFTYONE_API_KEY="<api-key>"
-GOOGLE_APPLICATION_CREDENTIALS="/path/to/gcp_credentials.json"
+GOOGLE_CLOUD_PROJECT="<gcp-project-id>"
 ```
