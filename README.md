@@ -114,25 +114,20 @@ python -m fathomnet_voxel51.upload_to_gcs --limit 100
 
 ### Step 2: Ingest into FiftyOne
 
-Create the FiftyOne dataset with both train and test splits:
+Create the FiftyOne dataset with both train and test splits. This step only needs to be run **once** - the dataset persists in FiftyOne Enterprise.
 
 ```bash
-# Ingest full dataset
+# Ingest full dataset (run once)
 python -m fathomnet_voxel51.ingest_dataset
 
-# Or test with a subset first
+# Test with a subset first (optional)
 python -m fathomnet_voxel51.ingest_dataset --limit 10
 
-# Recreate existing dataset
+# Delete and recreate dataset (if needed)
 python -m fathomnet_voxel51.ingest_dataset --recreate
 ```
 
-The script will:
-
-- Load COCO annotations from both train and test JSON files
-- Create samples pointing to GCS image paths
-- Convert bounding boxes to FiftyOne detection format
-- Tag samples with their split (`train`/`test`) for filtering in the App
+> _Note: Running without `--recreate` on an existing dataset will skip ingestion. Use `--recreate` to delete and rebuild the dataset from scratch._
 
 ### Exploration
 
